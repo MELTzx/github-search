@@ -177,7 +177,8 @@ for repo in t_repo:
     sys.stdout.write( '%s[+] %s%s\n' %  (fg('cyan'),repo,attr(0)) )
 
     try:
-        output = subprocess.check_output( "cd "+repo+"; git log --pretty=format:'{\"commit\":\"%H\",\"date\":\"%at\"}' 2>&1", shell=True ).decode('utf-8')
+        # output = subprocess.check_output( "cd "+repo+"; git log --pretty=format:'{\"commit\":\"%H\",\"date\":\"%at\"}' 2>&1", shell=True ).decode('utf-8')
+        output = subprocess.check_output( "cd "+repo+"; git log --all $(git reflog | awk '{print $1}') --pretty=format:'{\"commit\":\"%H\",\"date\":\"%at\"}' 2>&1", shell=True ).decode('utf-8')
     except Exception as e:
         sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
         continue
